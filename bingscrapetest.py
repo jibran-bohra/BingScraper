@@ -13,6 +13,7 @@ for page in range(1, num_pages + 1):
     print(page)
     count = results_per_page
     offset = (page - 1) * results_per_page
+    offset = 100
     params = {
         #'q': '',
         "rshighlight": "true",
@@ -81,12 +82,4 @@ for page in range(1, num_pages + 1):
         print("Kicked")
 
 
-if __name__ == "__main__":
-    start = time.time()
-    getBing_contenturls(url)
-    end = time.time()
-    print(end - start)
 
-len(all_results)
-
-set(all_results).__len__()

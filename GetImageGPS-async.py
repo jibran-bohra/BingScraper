@@ -1,10 +1,10 @@
-import requests, json, asyncio, time
+import httpx, json, asyncio, time
 from PIL import Image, ExifTags
 
 async def has_gps_info(image_url):
     try:
         # Download the image from the URL
-        response = requests.get(image_url, stream=True)
+        response = httpx.get(image_url, stream=True)
 
         if response.status_code == 200:
             # Open the image using PIL
@@ -40,16 +40,8 @@ async def main():
     print(results)
 
 if __name__ == "__main__":
-    start = time.time()
     asyncio.run(main())
-    end = time.time()
-    print(end - start)
-
-
-with open('url-searchresults/Image_0001.json', 'r') as f:
-    image_urls = json.load(f)
 
 
 
-image_urls
-set(image_urls).__len__()
+
