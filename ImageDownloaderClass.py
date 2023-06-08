@@ -30,10 +30,16 @@ class ImageDownloader:
                                 print(f"GPS info: {image_url}\n")
                                 # Save the image
                                 self.save_image(img, image_path)
+
+                            else:
+                                print("No GPS info found. \n")
+                    
+                    else: 
+                        print("No exif data found. \n")
                             
             else:
                 # If the response status code is not 200 (failure)
-                print(f"Response != 200. Failed to fetch image.")
+                print(f"Response != 200. Failed to fetch image. \n")
 
         except Exception as e:
             # If any exception occurs during the process
@@ -72,7 +78,7 @@ class ImageDownloader:
             # Iterate over the image URLs
             for i, image_url in enumerate(image_urls):
                 # Create a unique image path based on the file name and index
-                image_path = downloader.dir_output + ''.join(file.split('.')[:-1]) + f"-{i}"
+                image_path = self.dir_output + ''.join(file.split('.')[:-1]) + f"-{i}"
                 # Append the download task to the list of tasks
                 tasks.append(self.download_image_with_gps(image_url, image_path))
 
@@ -83,19 +89,6 @@ class ImageDownloader:
 
     
         
-
-downloader = ImageDownloader()
-
-"""for file in ["test.json"]:
-    print(file)
-    file_path = downloader.dir_searchresults + file
-
-    with open(file_path, 'r') as f:
-        image_urls = json.load(f)
-    
-    for i, image_url in enumerate(image_urls):
-        image_path = downloader.dir_output + ''.join(file.split('.')[:-1]) + f"-{i}"
-        asyncio.run(downloader.download_image_with_gps(image_url, image_path))
-"""
-
-asyncio.run(downloader.download_all())
+if __name__ == '__main__':
+    dl = ImageDownloader()
+    asyncio.run(dl.download_all())

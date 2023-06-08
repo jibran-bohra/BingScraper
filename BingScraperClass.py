@@ -5,7 +5,6 @@ from PIL import Image
 class BingScraper:
     def __init__(self):
         self.dir_input = "images-input/"
-        self.dir_test = "images-test/"
         self.dir_searchresults = "url-searchresults/"
 
         self.files_input = os.listdir(self.dir_input)
@@ -77,17 +76,41 @@ class BingScraper:
 
         return response.url
 
+    def write_to_json(self, output_file, results):
+        if os.path.exists(output_file):
+            # If the output file already exists
+            print("Output file already exists. Appending to it. ")
+
+            with open(output_file, 'r+') as f:
+                # Open the file in read and write mode
+                existing_data = json.load(f)  # Load the existing data from the file
+                existing_data.extend(results)  # Extend the existing data with new results
+                f.seek(0)  # Move the file pointer to the beginning
+                json.dump(list(set(existing_data)), f, indent=4)  # Write the updated data back to the file
+
+        else:
+            # If the output file does not exist
+            print("Output file does not exist. Creating it.")
+
+            with open(output_file, 'w') as f:
+                # Create a new file and open it in write mode
+                json.dump(results, f, indent=4)  # Write the results to the file
+
+        # Print the path where the results are exported
+        print(f"Results exported to {output_file} successfully.")
+        
     async def fetch_content_urls(self, page, params, headers, data):
         """Fetch content URLs for a given page using the Bing Images API."""
-        response = await httpx.post(
-            'https://www.bing.com/images/api/custom/knowledge',
-            params=params,
-            headers=headers,
-            data=data,
-            #proxy = 
-        )
-
         try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    'https://www.bing.com/images/api/custom/knowledge',
+                    params=params,
+                    headers=headers,
+                    data=data,
+                    # proxy=
+                )
+
             if response.status_code == 200:
                 # Convert the response to JSON format
                 jsondata = response.json()
@@ -102,7 +125,7 @@ class BingScraper:
 
 
     async def gather_content_urls(self, image_search_url):
-        "Given a Bing search result, gather 1000 direct URLs to images, and export to output file."
+        "Given a Bing search result, gather 1000 direct URLs to images."
 
         params = {
             'q': '',
@@ -167,37 +190,10 @@ class BingScraper:
         return list(set(all_results))
 
 
-    def write_to_json(self, output_file, results):
-        if os.path.exists(output_file):
-            # If the output file already exists
-            print("Output file already exists. Appending to it. ")
-
-            with open(output_file, 'r+') as f:
-                # Open the file in read and write mode
-                existing_data = json.load(f)  # Load the existing data from the file
-                existing_data.extend(results)  # Extend the existing data with new results
-                f.seek(0)  # Move the file pointer to the beginning
-                json.dump(list(set(existing_data)), f, indent=4)  # Write the updated data back to the file
-
-        else:
-            # If the output file does not exist
-            print("Output file does not exist. Creating it.")
-
-            with open(output_file, 'w') as f:
-                # Create a new file and open it in write mode
-                json.dump(results, f, indent=4)  # Write the results to the file
-
-        # Print the path where the results are exported
-        print(f"Results exported to {output_file} successfully.")
-
-     
-"""
-bing = BingScraper()
-
-
-for file in bing.files_input:
-    base64string = bing.image_jpeg_base64(bing.dir_input + file)
-    image_search_url = bing.get_search_url(base64string)
-    results = asyncio.run(bing.gather_content_urls(image_search_url))
-    bing.write_to_json(bing.dir_searchresults + ''.join(file.split('.')[:-1]) + '.json', results)    
-"""
+if __name__ == '__main__':     
+    bing = BingScraper()
+    for file in bing.files_input:
+        base64string = bing.image_jpeg_base64(bing.dir_input + file)
+        image_search_url = bing.get_search_url(base64string)
+        results = asyncio.run(bing.gather_content_urls(image_search_url))
+        bing.write_to_json(bing.dir_searchresults + ''.join(file.split('.')[:-1]) + '.json', results)    
