@@ -1,6 +1,6 @@
 # Geolocating Images using Bing
 
-The Geolocating Images using Bing project aims to provide an efficient solution for extracting GPS information from images. By utilizing Bing's reverse search feature, the script interacts with the Bing API to retrieve GPS data. To ensure faster computation, an asynchronous approach using the asyncio library is implemented for concurrent image processing.
+This project aims to provide an efficient solution for extracting GPS information from images. By utilizing Bing's reverse search feature, the script interacts with the Bing API to retrieve GPS data. To ensure faster computation, an asynchronous approach using the asyncio library is implemented for concurrent image processing.
 
 ## Key Features
 
