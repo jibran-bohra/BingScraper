@@ -1,4 +1,4 @@
-# Bing Scraper Project
+# Geolocating Images using Bing
 
 This project focuses on building a script that utilizes Bing's reverse search feature to gather GPS information for given images. The main goal is to geolocate images by extracting their geographical coordinates.
 
