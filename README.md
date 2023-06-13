@@ -13,10 +13,8 @@ This project aims to provide an efficient solution for extracting GPS informatio
 
 1. Clone the project repository from [here](link-to-repository).
 2. Install the necessary dependencies using your preferred package manager (e.g., pip).
-3. Create a Bing Developers account to obtain API credentials.
-4. Update the script with your Bing API credentials.
-5. Place the image(s) for geolocation in the `images-input/` directory.
-6. Run `main.py` to initiate the process of finding and downloading all image search results with GPS exif tags.
+3. Place the image(s) for geolocation in the `images-input/` directory.
+4. Run `main.py` to initiate the process of finding and downloading all image search results with GPS exif tags.
 
 Alternatively, you can follow these steps:
 1. Run `BingScraper.py` to gather search result content URLs, which will be saved in the `url-searchresults/` directory.
