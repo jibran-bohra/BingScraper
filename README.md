@@ -20,6 +20,6 @@ This Bing Scraper is designed to provide an efficient solution for extracting GP
 
 Alternatively:
 1. Run BingScraper.py to gather search result content URLs - saved in url-searchresults/ directory.
-2. Run ImageDownloader.py to download all images with GPS exif tags. 
+2. Run ImageDownloader.py to download all images with GPS exif tags to the images-output/ directory.
 
 
